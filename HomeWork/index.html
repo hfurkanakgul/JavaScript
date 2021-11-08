@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" sizes="192x192" href="favicon.ico">
+    <link rel="manifest" href="manifest.json">
+    <meta name="author" content="Halis Furkan Akgül, Istanbul, 2021">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+      body{
+        height: fit-content;
+        padding: 5px;
+        max-width: 600px;
+        margin: auto;
+        display: flex;
+        background: #cccccc;
+        align-items: center;
+        justify-content: center;
+      }
+      img{margin-left: 350px; 
+        border:2px solid #999; -webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;}
+
+      .container{
+        
+        background: #eeeeee;;
+        padding: 2rem;
+        font-family: 'Montserrat';
+        border-radius: 20px;
+        width: 500px;
+        height: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        box-shadow: 1px 1px 10px 1px rgba(1, 1, 1, 1);
+      }
+      li{
+        list-style-type: none;
+        padding: 0;
+        margin: 10px;
+      }
+      ul li {
+        margin: 1rem 0;
+      }
+      .split {
+        height: 40%;
+        width: 50%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        overflow-x: hidden;
+        padding-top: 20px;
+      }
+
+      .left {
+        left: 0;
+      }
+
+      .right {
+        right: 0;
+      }
+
+      .centered {
+        position: absolute;
+        top: 50%;
+        left: 0%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
+    </style>
+</head>
+<body>
+<div class="container">
+   <h3 style="text-align: center;"> Halis Furkan Akgül</h3>
+   <div class="split right">
+    <div class="centered">
+      <img src="foto.jpeg" width=150, height="150", title="HFA">
+    </div>
+  </div>
+
+   
+   <div class="right">
+    <a href="https://github.com/hfurkanakgul/BLM19305_E">My Repository</a>
+
+    <h3 id="class-work">Class work</h3>
+    <ul>
+        <li><a href="https://github.com/hfurkanakgul/BLM19305_E/blob/main/ClassWork/1.pdf">CW#1 – Browser tools</a></li>
+        <li><a href="https://github.com/hfurkanakgul/BLM19305_E/blob/main/ClassWork/2.pdf">CW#2 – Objects and Arrays</a></li>
+        <li><a href="https://github.com/hfurkanakgul/BLM19305_E/blob/main/ClassWork/3.pdf">CW#3 – Text to Objects</a></li>
+        <li><a href="https://github.com/hfurkanakgul/BLM19305_E/blob/main/ClassWork/4.pdf">CW#4 – Object Inspector</a></li>
+        <li><a href="https://github.com/hfurkanakgul/BLM19305_E/blob/main/ClassWork/5.pdf">CW#5 – Classes and Maps</a></li>
+        <li><a href="https://github.com/hfurkanakgul/BLM19305_E/blob/main/ClassWork/6.html">CW#6 – Callback and Promise</a></li>
+        <li><a href="https://github.com/hfurkanakgul/BLM19305_E/blob/main/ClassWork/7.html">CW#7 –  Remote URL or Local file</a></li>
+        <li><a href="https://github.com/hfurkanakgul/BLM19305_E/blob/main/ClassWork/8.html">CW#8 – SubtleCrypto</a></li>
+        <!--<li><a href="https://ahmetzumber.github.io/advanced_programming/CW10/cryptoworks.html">CW#9 – ArrayBuffer &amp; Crypto</a></li>
+        <li><a href="https://ahmetzumber.github.io/advanced_programming/CW11/events.html">CW#10 – Animation</a></li>
+        <li><a href="https://ahmetzumber.github.io/advanced_programming/CW12/github_works.html">CW#12 – GitHub Users</a></li>
+        <li><a href="https://ahmetzumber.github.io/advanced_programming/CW13/forecast.html">CW#13 – Open Weather</a></li>
+        <li><a href="https://ahmetzumber.github.io/advanced_programming/CW14/streetMap.html">CW#14 – Open Street Map</a></li>-->
+      
+    </ul>
+    
+    <h3 id="homework">Homework </h3>
+    <ul>
+      <li><a href="https://github.com/hfurkanakgul/BLM19305_E/blob/main/HomeWork/hw1.html">HW#1 – Poisson Table</a></li>
+       <!--
+      <li><a href="https://ahmetzumber.github.io/advanced_programming/HW%231/table.html">HW#1 – Poisson Table</a></li>
+      <li><a href="https://ahmetzumber.github.io/advanced_programming/HW2/database.html">HW#2 – Database and timing</a></li>
+      <li><a href="https://ahmetzumber.github.io/305/anim/Animation">HW#3 – Git and Animation</a></li>  -->
+    </ul>
+
+    <h3>Project</h3>
+    <ul>
+      <!-- <li><a href="https://ahmetzumber.github.io/advanced_programming/Project/menu.html">Quiz Application</a></li> -->
+    </ul></div>
+   
+
+</div>       
+    <script>navigator.serviceWorker.register('sw.js')</script>  
+</body>
+</html>
