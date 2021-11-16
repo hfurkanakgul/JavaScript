@@ -28,7 +28,8 @@ Tekrar = <input type="number" id="lam" value="1" onchange="calculate()">
 <pre id="sample">function ttma(x, λ, f=4) {<br>    let p = Math.exp(-λ)<br>    for (let k=1; k&lt;=x; k++) p = p*λ/k<br>    return p.toFixed(f)<br>}<br>function doTable() {<br>    const L = [0.5, 1, 1.5, 2, 2.5, 3]<br>    let a = L.map((λ) =&gt; 'λ='+λ)<br>    let str = header(a)<br>    for (let x=0; x&lt;=8; x++) { <br>       let a = L.map((λ) =&gt; poisson(x, λ))<br>       str += oneLine(a, x)<br>    }<br>    return str<br>}</pre>
 
 <hr>
-<p>Ref: <a href="" target="NewTab">Tek Tekrar Maksimum Tablosu</a>
+<p>Ref: <a href="https://pbs.twimg.com/media/DzU-LxMWwAAOOMt?format=jpg&name=4096x4096" target="NewTab">Tek Tekrar Maksimum Tablosu</a>
+    <img src="DzU-LxMWwAAOOMt (1).jpeg">
 </p>
 
 <script>
