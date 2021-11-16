@@ -1,7 +1,7 @@
 <html lang="en-US"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>Tek Tekrar Maksimum</title>
+    <title>One Rep Max Calculator</title>
 
   <style>
     body { max-width: 800px; }
@@ -12,7 +12,7 @@
 
 <body>
 
-<h2 id="title">Tek Tekrar Maksimum </h2>
+<h2 id="title">One Rep Max Calculator</h2>
 Kaldırılan Ağırlık = <input type="number" id="ex" value="0" onchange="calculate()">
  
 Tekrar = <input type="number" id="lam" value="1" onchange="calculate()">
@@ -28,8 +28,8 @@ Tekrar = <input type="number" id="lam" value="1" onchange="calculate()">
 <pre id="sample">function ttma(x, λ, f=4) {<br>    let p = Math.exp(-λ)<br>    for (let k=1; k&lt;=x; k++) p = p*λ/k<br>    return p.toFixed(f)<br>}<br>function doTable() {<br>    const L = [0.5, 1, 1.5, 2, 2.5, 3]<br>    let a = L.map((λ) =&gt; 'λ='+λ)<br>    let str = header(a)<br>    for (let x=0; x&lt;=8; x++) { <br>       let a = L.map((λ) =&gt; poisson(x, λ))<br>       str += oneLine(a, x)<br>    }<br>    return str<br>}</pre>
 
 <hr>
-<p>Ref: <a href="https://pbs.twimg.com/media/DzU-LxMWwAAOOMt?format=jpg&name=4096x4096" target="NewTab">Tek Tekrar Maksimum Tablosu</a>
-    <img src="DzU-LxMWwAAOOMt (1).jpeg">
+<p>Ref: <a href="https://cengizolmez.com/1-maksimum-tekrar-testi/" target="NewTab">Tek Tekrar Maksimum Tablosu</a>
+    <img src = "a.png" width="565px" height="350px">
 </p>
 
 <script>
@@ -46,7 +46,7 @@ function calculate() {
     res.innerText = "Tek Tekrar Maksimum= "+ttma(ka, tekTekrar)
 }
 function doTable() {
-    const L = [0,0.5,1,1.5]
+    const L = [10,20,30,40,50]
     let a = L.map((tekTekrar) => 'Tek Tekrar='+tekTekrar)
     let str = header(a)
     for (let ka=0; ka<=8; ka++) { 
@@ -55,8 +55,8 @@ function doTable() {
     }
     return str
 }
-let header  = (a) => '                   '+ a.join('   ') 
-let oneLine = (a, ka) => '\nTekrar Sayısı='+ka+'        '+ a.join('          ')
+let header  = (a) => '                       '+ a.join('    ') 
+let oneLine = (a, ka) => '\nTekrar Sayısı='+ka+'            '+ a.join('            ')
     
     title.innerText = document.title
     sample.innerText = ttma+'\n'+doTable
