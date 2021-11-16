@@ -1,10 +1,10 @@
 <html lang="en-US"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>Poisson Probabilities</title>
+    <title>Tek Tekrar Maksimum</title>
 
   <style>
-    body { max-width: 440px; }
+    body { max-width: 800px; }
     pre  { overflow-x: auto; }
     input { width: 50px }
   </style>
@@ -12,7 +12,7 @@
 
 <body>
 
-<h2 id="title">Poisson Probabilities</h2>
+<h2 id="title">Tek Tekrar Maksimum </h2>
 Kaldırılan Ağırlık = <input type="number" id="ex" value="0" onchange="calculate()">
  
 Tekrar = <input type="number" id="lam" value="1" onchange="calculate()">
@@ -25,16 +25,16 @@ Tekrar = <input type="number" id="lam" value="1" onchange="calculate()">
 
 <hr>
 <b>Sample code</b>
-<pre id="sample">function poisson(x, λ, f=4) {<br>    let p = Math.exp(-λ)<br>    for (let k=1; k&lt;=x; k++) p = p*λ/k<br>    return p.toFixed(f)<br>}<br>function doTable() {<br>    const L = [0.5, 1, 1.5, 2, 2.5, 3]<br>    let a = L.map((λ) =&gt; 'λ='+λ)<br>    let str = header(a)<br>    for (let x=0; x&lt;=8; x++) { <br>       let a = L.map((λ) =&gt; poisson(x, λ))<br>       str += oneLine(a, x)<br>    }<br>    return str<br>}</pre>
+<pre id="sample">function ttma(x, λ, f=4) {<br>    let p = Math.exp(-λ)<br>    for (let k=1; k&lt;=x; k++) p = p*λ/k<br>    return p.toFixed(f)<br>}<br>function doTable() {<br>    const L = [0.5, 1, 1.5, 2, 2.5, 3]<br>    let a = L.map((λ) =&gt; 'λ='+λ)<br>    let str = header(a)<br>    for (let x=0; x&lt;=8; x++) { <br>       let a = L.map((λ) =&gt; poisson(x, λ))<br>       str += oneLine(a, x)<br>    }<br>    return str<br>}</pre>
 
 <hr>
-<p>Ref: <a href="https://www.dummies.com/education/math/business-statistics/how-to-compute-poisson-probabilities/" target="NewTab">Poisson Table</a>
+<p>Ref: <a href="" target="NewTab">Tek Tekrar Maksimum Tablosu</a>
 </p>
 
 <script>
 "use strict";
-function poisson(ka, tekTekrar) {
-    return (ka) / [1.0278-(tekTekrar*0.0278)]
+function ttma(ka, tekTekrar) {
+    return ((ka) / [1.0278-(tekTekrar*0.0278)]).toFixed(3)
 }
 function calculate() {
     let ka = Number(ex.value)
@@ -42,23 +42,23 @@ function calculate() {
        ka = Math.round(ka); ex.value = ka
     }
     let tekTekrar = Number(lam.value)
-    res.innerText = "Tek Tekrar Maksimum= "+poisson(ka, tekTekrar)
+    res.innerText = "Tek Tekrar Maksimum= "+ttma(ka, tekTekrar)
 }
 function doTable() {
-    const L = [10,20,30,40,50]
+    const L = [0,0.5,1,1.5]
     let a = L.map((tekTekrar) => 'Tek Tekrar='+tekTekrar)
     let str = header(a)
     for (let ka=0; ka<=8; ka++) { 
-       let a = L.map((tekTekrar) => poisson(ka, tekTekrar))
+       let a = L.map((tekTekrar) => ttma(ka, tekTekrar))
        str += oneLine(a, ka)
     }
     return str
 }
-let header  = (a) => '      '+ a.join('   ')  //pre
-let oneLine = (a, ka) => '\nTekrar Sayısı='+ka+'  '+ a.join(' ')
+let header  = (a) => '                   '+ a.join('   ') 
+let oneLine = (a, ka) => '\nTekrar Sayısı='+ka+'        '+ a.join('          ')
     
     title.innerText = document.title
-    sample.innerText = poisson+'\n'+doTable
+    sample.innerText = ttma+'\n'+doTable
     calculate()
     out.innerText = doTable()
 </script>
