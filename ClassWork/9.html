@@ -1,13 +1,14 @@
-<html lang="en-US"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <title>One Rep Max Calculator</title>
 
-  <style>
-    body { max-width: 800px; }
-    pre  { overflow-x: auto; }
-    input { width: 50px }
-  </style>
+<html lang="en-US"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>One Rep Max Calculator</title>
+
+<style>
+  body { max-width: 800px; }
+  pre  { overflow-x: auto; }
+  input { width: 50px }
+</style>
 </head>
 
 <body>
@@ -29,39 +30,39 @@ Tekrar = <input type="number" id="lam" value="1" onchange="calculate()">
 
 <hr>
 <p>Ref: <a href="http://archerywinchester.com/05biomwt.html" target="NewTab">Tek Tekrar Maksimum Tablosu</a>
-    <img src = "a.png" width="565px" height="350px">
+  <img src = "a.png" width="565px" height="350px">
 </p>
 
 <script>
 "use strict";
 function ttma(ka, tekTekrar) {
-    return ((ka) / [1.0278-(tekTekrar*0.0278)]).toFixed(2)
+  return ((ka) / [1.0278-(tekTekrar*0.0278)]).toFixed()
 }
 function calculate() {
-    let ka = Number(ex.value)
-    if (!Number.isInteger(ka)) {
-       ka = Math.round(ka); ex.value = ka
-    }
-    let tekTekrar = Number(lam.value)
-    res.innerText = "Tek Tekrar Maksimum= "+ttma(ka, tekTekrar)
+  let ka = Number(ex.value)
+  if (!Number.isInteger(ka)) {
+     ka = Math.round(ka); ex.value = ka
+  }
+  let tekTekrar = Number(lam.value)
+  res.innerText = "Tek Tekrar Maksimum= "+ttma(ka, tekTekrar)
 }
 function doTable() {
-    const L = [1,2,3,4,5]
-    let a = L.map((tekTekrar) => 'Tek Tekrar='+tekTekrar)
-    let str = header(a)
-    for (let ka=150; ka>=100; ka=ka-5) { 
-       let a = L.map((tekTekrar) => ttma(ka, tekTekrar))
-       str += oneLine(a, ka)
-    }
-    return str
+  const L = [1,2,3,4,5]
+  let a = L.map((tekTekrar) => ''+tekTekrar)
+  let str = header(a)
+  for (let ka=150; ka>=100; ka=ka-5) { 
+     let a = L.map((tekTekrar) => ttma(ka, tekTekrar))
+     str += oneLine(a, ka)
+  }
+  return str
 }
-let header  = (a) => '                               '+ a.join('    ') 
-let oneLine = (a, ka) => '\n Kaldırılan Ağırlık= '+ka+'          '+ a.join('          ')
-    
-    title.innerText = document.title
-    sample.innerText = ttma+'\n'+doTable
-    calculate()
-    out.innerText = doTable()
+let header  = (a) => '           '+ a.join('      ') 
+let oneLine = (a, ka) => '\n '+ka+'      '+ a.join('    ')
+  
+  title.innerText = document.title
+  sample.innerText = ttma+'\n'+doTable
+  calculate()
+  out.innerText = doTable()
 </script>
 
 
