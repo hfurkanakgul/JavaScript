@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="icon" href="../images/icon192.png">
+  <title>GitHub Users</title>
+  <style>
+    body {
+        max-width: 335px;
+    }
+    img {
+        padding-right: 25px; 
+        width: 300px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2 id=title></h2>
+<input type=text id=usr value=maeyler onChange="readUser()">
+
+<p id=out></p>
+<hr />
+<p>Ref: <a href="https://developer.github.com/v3/#rate-limiting" target=NewTab>GitHub Developer</a>
+</p>
+
+<script>
+"use strict";
+function error(t) {
+    out.style.color = 'red'
+    out.innerText = t; throw t
+}
+async function toJSON(url) {
+  try {
+    let r = await fetch(url)
+    if (!r.ok) throw cause(r.status)
+    return r.json()
+  } catch (e) {
+    error(e)
+  }
+}
+async function readUser() {
+    const BR = "<BR>", 
+      URL = "https://api.github.com/users/"
+    let u = await toJSON(URL+usr.value)
+    if (!u || !u.login) 
+      error(usr.value+' not found')
+    out.style.color = ''
+    out.innerHTML = ''
+    let foto = document.createElement("img")
+    foto.src = u.avatar_url
+    foto.align = "center"
+    out.appendChild(foto)
+    let isim = (u.name? u.name : u.login)
+    out.innerHTML += BR+isim; 
+
+    let h = u.login
+    out.innerHTML +=BR+h
+   
+    out.innerHTML +=BR +BR+"Company: "+u.company
+    out.innerHTML +=BR+"Location: "+u.location
+    console.log(isim +' , '+ u.location)
+    if(!(u.mail == null)){
+      out.innerHTML +=BR+"Mail: "+u.email
+    }
+    else{
+      out.innerHTML +=BR+"Mail: Bulunamadı"
+    }
+    out.innerHTML +=BR+"Blog: "+u.blog
+
+    let n = u.public_repos
+    out.innerHTML += BR+`${n} public repos`+BR+BR
+    if (!n) return
+    let b = await toJSON(URL+u.login+"/repos")
+    out.innerHTML += b.map(x => x.name).join(", ")
+}
+    title.innerText = document.title
+    readUser()
+</script>
+
+</body>
+</html>
