@@ -1,10 +1,8 @@
-
-<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width">
-  <link rel="icon" href="../images/icon192.png">
+  <link rel="icon" href="icon.jpg">
   <title>Open Weather</title>
   <style>
     body {
@@ -22,197 +20,168 @@
     .dar { width: 42%; }
     #main {
         box-sizing: border-box;
-        width: 100%;
-        padding: 20px;
+        width: 450px;
         text-align: center;    
-        background: #9cf;
+        background: rgb(139, 165, 238);
         font-size: 24px;
-        margin: 0;
+        margin: 10px;
     }
     #yer { margin: 10px; }
     #err { color:red }
- 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      .container {
-        height: 5rem;
-        width: 25rem;
-        background-color: rgb(216, 245, 221);
-        text-align: center;
-        padding-top: 12px;
-        border-radius: 16px;
-        border: 2px solid rgb(14, 43, 1);
-      }
-    
   </style>
 </head>
 
 <body>
-<div id=main>
-<p id=yer>location</p>
-<p><img id=icon>
-<span id=hava>weather</span></p>
-</div>
-<input type="number" id="mylat" value="41.01" style="margin-top: 5px;">
-<input type="number" id="mylon" value="28.85" style="margin-top: 5px;">
-<button onclick="askWeather()">OK </button>
-<div class=dar>
-  <b>Detail</b>
-  <pre id=detay>detail</pre>
-</div>
-<div class=dar>
-  <b>Sun</b>
-  <pre id=gunes>sunrise</pre>
- 
-</div>
-<hr /> 
-<div class="container">
-    <div class="icon">---</div>
-    <div class="temp">-°C</div>
-    <div class="summary">----</div>
-    <div class="location"></div>
-  </div>
-<div>
+    <svg id=svgg width="500" height="100">
+
+		<text x="150" y="50" fill="#666" style="font-size:25px">HFA OPEN WHATHER</text>
+	</svg>
+    <div>
+        <input type="number" id="lat-lot" value="41.01" style="margin-top: 5px;">
+        <input type="number" id="lat-lot" value="28.85" style="margin-top: 5px;"><button onclick="askWeather()">OK </button>
+    </div>
+    <div id=main>
+    <p id=yer>location</p>
+    <p><img id=icon>
+    <span id=hava>weather</span></p>
+    </div>
+
+    <svg id=svg width="450" height="300" style="padding: 10px;">
+        
+        <rect width="500" height="300" style="fill:rgb(139, 165, 238);stroke-width:10;"  />
+
+        <foreignobject width="250" height="350" x="25" y="25">
+            <div x="50" y="50" width="50" height="50">
+                    <text font-size="25" x="20" y="50">Detail</text>
+                    <pre id=detay style="color: white;">detail</pre>
+                    <text font-size="25" x="220" y="50">Sun</text>
+                    <pre id=gunes style="color: white;">sunrise</pre>
+            </div>
+    </svg>
     
-<p id=err>You need an API key for openweathermap.org 
-  <a href="https://openweathermap.org/appid" 
-   target="NewTab">here</a> 
-</p>
-
-</div>
-
-<script>
-"use strict";
-function toHM(t, round) {
-    let d = t ? new Date(t*1000) : new Date()
-    if (round && d.getSeconds()>29)
-        d = new Date((t+30)*1000) //round
-    let h = d.getHours()
-    let m = d.getMinutes()
-    let twoDigits = t => (t>9? '' : '0')+t
-    return twoDigits(h)+":"+twoDigits(m)
-}
-async function toJSON(url) {
-    let r = await fetch(url)
-    if (!r.ok) error(r.statusText)
-    return r.json()
-}
-// Location
-var lat, lon;
-
-var accessKey;
-async function askWeather() {
-    lat=document.getElementById("mylat").value
-    lon=document.getElementById("mylon").value
-    console.log(lat, lon); 
-    const U = "https://api.openweathermap.org/data/2.5/weather?"
-    let url = U+"lat="+lat+"&lon="+lon+"&APPID="+accessKey;
-    hava.innerText = "getting weather"
-    detay.innerText = ''
-    gunes.innerText = ''
+    <div>
+    <p id=err>You need an API key for openweathermap.org 
+        <a href="https://openweathermap.org/appid" 
+        target="NewTab">here</a> 
+    </p>
+<hr>
+    <p>Sample Code</p>
+    <pre id=sample>
+    </pre>
+    <script>
+    "use strict";
    
-   let data = await toJSON(url)
 
-    let w = data.weather[0]; showIcon(w.icon)
-    let celsius = convert(data.main.temp).toFixed(0)
-    let hh = w.main+"  "+celsius+"°", {sys} = data
-    let yy = data.name+', '+sys.country
-    hava.innerText = hh; yer.innerText = yy
-    console.log(hh, yy); console.log(sys)
-    lat = data.coord.lat; lon = data.coord.lon
-    let loc = "["+lat.toFixed(2)+", "+lon.toFixed(2)+"]"
-    detay.innerText = hh+'\n'+yy+'\n'+loc
-        +'\nWind  '+data.wind.speed*3.6+' kph'
-        +'\nWind Direction  '+data.wind.deg+' °'
-        +'\nPressure '+data.main.pressure+' hpa'
-        +'\nHumidity '+data.main.humidity+'%'
-    let {sunrise, sunset} = sys, noon = (sunrise+sunset)/2
-    gunes.innerText = 'Rise '+toHM(sunrise, 1)
-        +'\nNoon '+toHM(noon, 1)+'\nSet  '+toHM(sunset, 1)
-}
-function showIcon(i) {
-    const URL = "https://openweathermap.org/img/w/"
-    icon.src = URL+i+".png"
-    document.querySelector('link').href = icon.src
-}
-function convert(kelvin){
-    return (kelvin - 273.15);
-    //return celsius*1.8 + 32
-}
-// Interaction
-function askUser() {
-    let k = prompt('Please enter openweather key:')
-    if (!k) error('You need an API key')
-    return k
-}
-function error(e) {
-    main.style.display = "none"; //hide
-    //refs.style.display = "none";
-    err.style.display = ''; //show
-    throw e
-}
-function getAPIkey() {
-    if (origin.startsWith('http') && localStorage) {
-        if (!localStorage.keys) localStorage.keys = '{}'
-        let keys = JSON.parse(localStorage.keys)
-        if (!keys.openweather) {
-           keys.openweather = askUser()
-           localStorage.keys = JSON.stringify(keys)
-        }
-        accessKey = keys.openweather
-    } else { //cannot use localStorage
-        accessKey = askUser()
+    function toHM(t, round) {
+        let d = t ? new Date(t*1000) : new Date()
+        if (round && d.getSeconds()>29)
+            d = new Date((t+30)*1000) //round
+        let h = d.getHours()
+        let m = d.getMinutes()
+        let twoDigits = t => (t>9? '' : '0')+t
+        return twoDigits(h)+":"+twoDigits(m)
     }
-}
-function svg(){
-    let lon;
-let lat;
-let temperature = document.querySelector(".temp");
-let summary = document.querySelector(".summary");
-let loc = document.querySelector(".location");
-let icon = document.querySelector(".icon");
-const kelvin = 273;
-  
-window.addEventListener("load", () => {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      console.log(position);
-      lon = position.coords.longitude;
-      lat = position.coords.latitude;
-  
-      // API ID
-      const api = "6d055e39ee237af35ca066f35474e9df";
-  
-      // API URL
-      const base =
-    `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&` +
-    `lon=${lon}&appid=6d055e39ee237af35ca066f35474e9df`;
-  
-      // Calling the API
-      fetch(base)
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          console.log(data);
-          temperature.textContent =  Math.floor(data.main.temp - kelvin) + "°C";
-          summary.textContent = data.weather[0].description;
-          loc.textContent = data.name + "," + data.sys.country;
-          let icon1 = data.weather[0].icon;
-          
-        });
-    });
-  }
-});
-}
-    err.style.display = "none"
-    getAPIkey(); 
-    askWeather();
-    svg();
-</script>
+    async function toJSON(url) {
+        let r = await fetch(url)
+        if (!r.ok) error(r.statusText)
+        return r.json()
+    }
+    // Location
+    var lat, lon;  //global values
+    async function askLocation() {
+        let name = 'geolocation'
+        let result = await navigator.permissions.query({name})
+        if (result.state == 'denied') {
+            let url = "https://ipinfo.io/json"
+            toJSON(url).then(getLocation2, error)
+        } else  {
+            navigator.geolocation
+            .getCurrentPosition(getLocation1, error);
+        }
+    }
+    function getLocation2(p) { //Approximate
+        console.log("ipinfo.io", p.city)
+        let [x, y] = p.loc.split(',')
+        lat = Number(x); lon = Number(y); 
+        askWeather()
+    }
+    function getLocation1(p) { //Accurate
+        console.log("getCurrentPosition")
+        lat = p.coords.latitude; lon = p.coords.longitude;
+        askWeather()
+    }
+    // Weather
+    var accessKey;
+    async function askWeather() {
+        console.log(lat, lon); 
+        const U = "https://api.openweathermap.org/data/2.5/weather?"
+        let url = U+"lat="+lat+"&lon="+lon+"&APPID="+accessKey;
+        hava.innerText = "getting weather"
+        detay.innerText = ''
+        gunes.innerText = ''
+        let data = await toJSON(url)
+    //  fetch(url).then(r => r.json()).then(showWeather)
+    // }
+    // function showWeather(data) {
+        let w = data.weather[0]; showIcon(w.icon)
+        let celsius = convert(data.main.temp).toFixed(0)
+        let hh = w.main+"  "+celsius+"°", {sys} = data
+        let yy = data.name+', '+sys.country
+        hava.innerText = hh; yer.innerText = yy
+        lat = data.coord.lat; lon = data.coord.lon
+        console.log(hh, yy); console.log(sys)
+        let loc = "["+lat.toFixed(2)+", "+lon.toFixed(2)+"]"
+        detay.innerText =hh  //+'\n'+yy +'\n['+lat-lot.value+"]" 
+            +'\nWind  '+(Number(data.wind.speed)*3.6).toFixed()+' km/h SW'
+            +'\nPressure '+data.main.pressure+' mm'
+            +'\nHumidity '+'%'+data.main.humidity
 
-</body>
-</html>
+        let {sunrise, sunset} = sys, noon = (sunrise+sunset)/2
+            gunes.innerText = 'Rise '+toHM(sunrise+data.timezone)
+            +'\nNoon '+toHM(noon+data.timezone)
+            +'\nSet  '+toHM(sunset+data.timezone)
+            +'\nZone '+(data.timezone/3600)
+            console.log(hh, yy, 'Wind '+data.wind.deg+'° ')
+    }
+    function showIcon(i) {
+        const URL = "https://openweathermap.org/img/w/"
+        icon.src = URL+i+".png"
+        document.querySelector('link').href = icon.src
+    }
+    function convert(kelvin){
+        return (kelvin - 273.15);
+    }
+    // Interaction
+    function error(e) {
+        main.style.display = "none"; //hide
+        //refs.style.display = "none";
+        err.style.display = ''; //show
+        throw e
+    }
+    function getAPIkey() {
+        if (origin.startsWith('http') && localStorage) {
+            if (!localStorage.keys) localStorage.keys = '{}'
+            let keys = JSON.parse(localStorage.keys)
+            if (!keys.openweather) {
+            keys.openweather = askUser()
+            localStorage.keys = JSON.stringify(keys)
+            }
+            accessKey = keys.openweather
+        } else { //cannot use localStorage
+            accessKey = askUser()
+        }
+    }
+    function getLocationUser(location){
+        let loc2 = location.split(",")
+        lat = loc2[0];
+        lon = loc2[1];
+        askWeather()
+    }
+        err.style.display = "none"
+        getAPIkey(); askLocation()
+        sample.innerText = svg.innerHTML
+        
+    </script>
+
+    </body>
+    </html>
