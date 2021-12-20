@@ -88,7 +88,7 @@
             <button type="button" value="2" class="numBtn button">2</button>
             <button type="button" value="3" class="numBtn button">3</button>
             <button type="button" value="+" class="operatorBtn button">+</button>
-            <button type="button" value="+/-" class="operatorBtn button">+/-</button>
+            <button type="button" value="sqrt" class="operatorBtn button">√¯</button>
             <button type="button" value="0" class="numBtn button">0</button>
             <button type="button" value="." class="operatorBtn button">.</button>
             <button type="button" value="=" class="operatorBtn button">=</button>
@@ -96,15 +96,7 @@
     </main>
 </body>
 <script>
-    var calculator = {
-    firstOperand: 0,
-    secondOperand: 0,
-    waitingForSecondOperand: false,
-    operationDisplayValue: 0,
-    displayValue: 0,
-    operator: ''
-}
-
+    var calculator = { firstOperand: 0, secondOperand: 0, waitingForSecondOperand: false, operationDisplayValue: 0, displayValue: 0, operator: ''}
 
 function input(){
     updateDisplay();
@@ -147,14 +139,6 @@ function handleOperator(operator){
                 calculator.secondOperand = '';
                 calculator.operationDisplayValue = 0;
             }
-            break;
-        case '+/-':
-            if (operationDisplayValue !== 0){
-                operationDisplayValue -= operationDisplayValue*2;
-            }
-            calculator.displayValue -= calculator.displayValue*2;
-            calculator.firstOperand = calculator.displayValue;
-            calculator.secondOperand = '';
             break;
         case '.':
             inputDecimalPoint(operator);
@@ -230,6 +214,9 @@ function multiply (firstOperand, secondOperand) {
 function divide (firstOperand, secondOperand) {
     return Math.round((firstOperand / secondOperand)*100)/100;
 }
+function sqrt (firstOperand) {
+    return Math.round((Math.sqrt(firstOperand))*100)/100;
+}
 
 function operate (operator, firstOperand, secondOperand) {
     switch(operator){
@@ -241,6 +228,8 @@ function operate (operator, firstOperand, secondOperand) {
             return multiply(firstOperand, secondOperand);
         case '/':
             return divide(firstOperand, secondOperand);
+        case 'sqrt':
+            return sqrt(firstOperand, secondOperand);    
     }
 }
 
