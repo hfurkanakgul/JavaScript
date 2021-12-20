@@ -1,0 +1,286 @@
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HFA</title>
+    <style>
+    #calculator{
+        background: #c5c5c5;
+        display: grid;
+        border: solid 2px black;
+        width: 270px;
+        height: 450px;
+        padding: 20px;
+        margin: 0 auto;
+      }
+    #calculator > div{
+        margin: 5px;
+      }
+    
+    .buttons{
+        display: grid;
+        grid-template: repeat(5, 40px) / repeat(4, 40px);
+        align-items: center;
+        gap: 26px;
+        width: 255px;
+    }
+    
+    .buttons > .button {
+        background: white;
+        border: 2px solid black;
+        border-radius: 10px;
+        padding: 10px;
+        color: black;
+        font-size: 25px;
+        width: 60px;
+        text-align: center;
+    }
+    
+    .buttons > .button:hover {
+        background: #e4adad; /*   Butona mouse gelince rengi  */
+    }
+    
+    .screen{
+        width: 255px;
+    }
+    
+    .screen input{
+        height: 50%;
+        border: none;
+        text-align: right;
+        margin: auto;
+        padding: 5px 10px;
+        background: rgb(255, 255, 255);
+        font-size: 45px;
+        color: rgb(0, 0, 0);
+        width: 255px;
+    }
+    
+    .screen #operationTxt{
+      font-size: 30px;
+    }
+    </style>
+    
+    <title>Term Project</title>
+</head>
+<body>
+    <main id="calculator">
+        <div class=screen>
+            <input type="text" id="operationTxt" disabled/>
+            <input type="text" id="resultTxt" disabled/>
+        </div>
+        
+        <div class="buttons">
+            <button type="button" value="C" class="operatorBtn button">C</button>
+            <button type="button" value="CE" class="operatorBtn button" >CE</button>
+            <button type="button" value="<=" class="operatorBtn button"> Del</button>
+            <button type="button" value="/" class="operatorBtn button">/</button>
+            <button type="button" value="7" class="numBtn button">7</button>
+            <button type="button" value="8" class="numBtn button">8</button>
+            <button type="button" value="9" class="numBtn button">9</button>
+            <button type="button" value="*" class="operatorBtn button">*</button>
+            <button type="button" value="4" class="numBtn button" >4</button>
+            <button type="button" value="5" class="numBtn button">5</button>
+            <button type="button" value="6" class="numBtn button">6</button>
+            <button type="button" value="-" class="operatorBtn button">-</button>
+            <button type="button" value="1" class="numBtn button">1</button>
+            <button type="button" value="2" class="numBtn button">2</button>
+            <button type="button" value="3" class="numBtn button">3</button>
+            <button type="button" value="+" class="operatorBtn button">+</button>
+            <button type="button" value="+/-" class="operatorBtn button">+/-</button>
+            <button type="button" value="0" class="numBtn button">0</button>
+            <button type="button" value="." class="operatorBtn button">.</button>
+            <button type="button" value="=" class="operatorBtn button">=</button>
+        </div>
+    </main>
+</body>
+<script>
+    var calculator = {
+    firstOperand: 0,
+    secondOperand: 0,
+    waitingForSecondOperand: false,
+    operationDisplayValue: 0,
+    displayValue: 0,
+    operator: ''
+}
+
+
+function input(){
+    updateDisplay();
+    let buttons = document.querySelector('.buttons');
+
+    buttons.addEventListener('click', (event) => {
+        const {target} = event;
+
+        if(!target.matches('button')){
+            return;
+        }
+
+        if(target.classList.contains('operatorBtn')){
+            handleOperator(target.value);
+            updateDisplay();
+        }
+
+        if(target.classList.contains('numBtn')){
+            inputDigit(target.value);
+            updateDisplay();
+        }
+    })
+}
+
+function handleOperator(operator){
+
+    switch(operator){
+        case 'C':
+            resetCalculator();
+            break;
+        case '<=':
+            backspace();
+            break;
+        case 'CE':
+            if(!calculator.waitingForSecondOperand){
+                calculator.firstOperand = '';
+                calculator.operationDisplayValue = 0;
+            }
+            else{
+                calculator.secondOperand = '';
+                calculator.operationDisplayValue = 0;
+            }
+            break;
+        case '+/-':
+            if (operationDisplayValue !== 0){
+                operationDisplayValue -= operationDisplayValue*2;
+            }
+            calculator.displayValue -= calculator.displayValue*2;
+            calculator.firstOperand = calculator.displayValue;
+            calculator.secondOperand = '';
+            break;
+        case '.':
+            inputDecimalPoint(operator);
+            break;
+        case '=':
+            calculator.displayValue = operate(calculator.operator, calculator.firstOperand, calculator.secondOperand);
+            calculator.operationDisplayValue = 0;
+            break;
+        default:
+            if(calculator.operator !== ''){
+                calculator.firstOperand = operate(calculator.operator, calculator.firstOperand, calculator.secondOperand);
+                calculator.waitingForSecondOperand = true;
+                calculator.secondOperand = '';
+                calculator.operationDisplayValue = calculator.displayValue;
+            }
+            calculator.operator = operator;
+            calculator.waitingForSecondOperand =true;
+            calculator.operationDisplayValue += operator;
+            break;
+    }
+}
+
+function inputDecimalPoint(decimalPoint){
+    let firstOperandIncludes;
+    let secondOperandIncludes;
+
+    if(!calculator.waitingForSecondOperand){
+        firstOperandIncludes = calculator.firstOperand.includes(decimalPoint);
+        if(!firstOperandIncludes){
+            calculator.operationDisplayValue += decimalPoint;
+            calculator.firstOperand += decimalPoint;
+        }
+    }
+
+    if(calculator.waitingForSecondOperand){
+        secondOperandIncludes = calculator.secondOperand.includes(decimalPoint);
+        if(!secondOperandIncludes){
+            calculator.operationDisplayValue += decimalPoint;
+            calculator.secondOperand += decimalPoint;
+        }
+    }
+}
+
+function resetCalculator(){
+    calculator.firstOperand = '';
+    calculator.secondOperand = '';
+    calculator.waitingForSecondOperand = false;
+    calculator.operationDisplayValue = 0;
+    calculator.displayValue = 0;
+    calculator.operator = '';
+    console.clear();
+}
+
+function updateDisplay(){
+    const operationDisplay = document.querySelector('.screen #operationTxt');
+    const resultDisplay=document.querySelector('.screen #resultTxt');
+    operationDisplay.value = calculator.operationDisplayValue;
+    resultDisplay.value = calculator.displayValue;
+}
+
+function add (firstOperand,secondOperand) {
+    return Math.round((+firstOperand + +secondOperand)*100)/100;
+}
+
+function subtract (firstOperand, secondOperand) {
+    return Math.round((firstOperand - secondOperand) *100)/100;
+}
+
+function multiply (firstOperand, secondOperand) {
+    return Math.round((firstOperand * secondOperand)*100)/100;
+}
+
+function divide (firstOperand, secondOperand) {
+    return Math.round((firstOperand / secondOperand)*100)/100;
+}
+
+function operate (operator, firstOperand, secondOperand) {
+    switch(operator){
+        case '+':
+            return add(firstOperand, secondOperand);
+        case '-':
+            return subtract(firstOperand, secondOperand);
+        case '*':
+            return multiply(firstOperand, secondOperand);
+        case '/':
+            return divide(firstOperand, secondOperand);
+    }
+}
+
+function inputDigit(digit){
+    calculator.operationDisplayValue === 0 ? calculator.operationDisplayValue = digit : calculator.operationDisplayValue += digit;
+    if (!calculator.waitingForSecondOperand) {
+        calculator.firstOperand += digit;
+    }
+    else {
+        
+        calculator.secondOperand += digit;
+    }
+}
+
+function backspace(){
+    let displayNum = calculator.operationDisplayValue;
+    let firstOp = calculator.firstOperand;
+    let secondOp = calculator.secondOperand;
+    let len = displayNum.length-1;
+    let firstOpLen = firstOp.length-1;
+    let secondOpLen = secondOp.length - 1;
+
+    if(!calculator.waitingForSecondOperand){
+        let newFirstOp = firstOp.substring(0,firstOpLen);
+        calculator.firstOperand = newFirstOp;
+    }
+    else{
+        let newSecondOp = secondOp.substring(0,secondOpLen);
+        calculator.secondOperand = newSecondOp;
+    }
+    if (calculator.operationDisplayValue.length >= 0){
+        let newNumber = displayNum.substring(0, len);
+        calculator.operationDisplayValue = newNumber;
+        if (calculator.operationDisplayValue === ''){
+            calculator.operationDisplayValue = 0;
+        }
+    }
+}
+
+input();
+console.log("basarili");
+</script>
+</html>
