@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>HFA</title>
         <style>
-        #calculator{
+        #calculator{ /* bütün hesaplama ekranını ayarlıyor     */ 
             background: #c5c5c5;
             display: grid;
             border: solid 2px black;
@@ -15,11 +15,11 @@
             padding: 20px;
             margin: 0 auto;
           }
-        #calculator > div{
-            margin: 5px;
+        #calculator > div{ /*ekrandaki divler arasındaki boşlukları ayarlıyoruz     */
+            margin: 10px;
           }
         
-        .buttons{
+        .buttons{   /* Butonların yerlerini ayarlıyoruz*/ 
             display: grid;
             grid-template: repeat(5, 40px) / repeat(4, 40px);
             align-items: center;
@@ -27,7 +27,7 @@
             width: 255px;
         }
         
-        .buttons > .button {
+        .buttons > .button {  /*  buton divlerinin içindeki butonların yerlerini şekillerini ayarlıyoruz     */
             background: white;
             border: 2px solid black;
             border-radius: 10px;
@@ -42,11 +42,11 @@
             background: #e4adad; /*   Butona mouse gelince rengi  */
         }
         
-        .screen{
+        .screen{ /* Tüm ekran boyutunu ayarlıyoruz */ 
             width: 255px;
         }
         
-        .screen input{
+        .screen input{  /* ekrandaki girişlerin boyutlarını yazı şeklini ayarlıyoruz    */ 
             height: 50%;
             border: none;
             text-align: right;
@@ -58,7 +58,7 @@
             width: 255px;
         }
         
-        .screen #operationTxt{
+        .screen #operationTxt{ /*ekran girişindeki yazıların boyutunu yazıyoruz */ 
           font-size: 30px;
         }
         </style>
@@ -97,7 +97,13 @@
         </main>
     </body>
     <script>
-        var calculator = { firstOperand: 0, secondOperand: 0, waitingForSecondOperand: false, operationDisplayValue: 0, displayValue: 0, operator: ''}
+        var calculator = { 
+            firstOperand: 0,                    /* ilk yazılan sayı */
+            secondOperand: 0,                   /* son yazılan sayı */
+            waitingForSecondOperand: false,     /* basılan butonlara göre doğru işlemi yapması */
+            operationDisplayValue: 0,           /* girilen değerleri */ 
+            displayValue: 0,                    /* sonuç değerler */ 
+            operator: ''}                       /* basılan tuş */
     
     function input(){
         updateDisplay();
@@ -152,7 +158,7 @@
         }
     }
     
-    function inputDecimalPoint(decimalPoint){
+    function inputDecimalPoint(decimalPoint){ /* . operatörübüb kullanımı */
         let firstOperandIncludes;
         let secondOperandIncludes;
     
@@ -173,7 +179,7 @@
         }
     }
     
-    function resetCalculator(){
+    function resetCalculator(){     /*  tüm ekranı sıfırlama */ 
         calculator.firstOperand = '';
         calculator.secondOperand = '';
         calculator.waitingForSecondOperand = false;
@@ -183,7 +189,7 @@
         console.clear();
     }
     
-    function updateDisplay(){
+    function updateDisplay(){          /* basılan butonlara göre yapılacak işlemi söyler    */ 
         const operationDisplay = document.querySelector('.screen #operationTxt');
         const resultDisplay=document.querySelector('.screen #resultTxt');
         operationDisplay.value = calculator.operationDisplayValue;
@@ -191,25 +197,25 @@
     }
     
     function add (firstOperand,secondOperand) {
-        return Math.round((+firstOperand + +secondOperand)*100)/100;
+        return Math.round((+firstOperand + +secondOperand)*100)/100; /* toplama işleminin yapılmasını sağlar ve onu yuvarlar */
     }
     
     function subtract (firstOperand, secondOperand) {
-        return Math.round((firstOperand - secondOperand) *100)/100;
+        return Math.round((firstOperand - secondOperand) *100)/100; /* çıkarma işleminin yapılmasını sağlar ve onu yuvarlar */
     }
     
     function multiply (firstOperand, secondOperand) {
-        return Math.round((firstOperand * secondOperand)*100)/100;
+        return Math.round((firstOperand * secondOperand)*100)/100; /* Çarpma işleminin yapılmasını sağlar ve onu yuvarlar*/
     }
     
     function divide (firstOperand, secondOperand) {
-        return Math.round((firstOperand / secondOperand)*100)/100;
+        return Math.round((firstOperand / secondOperand)*100)/100; /* Bölme işleminin yapılmasını sağlar ve onu yuvarlar*/
     }
     function sqrt (firstOperand) {
-        return Math.round((Math.sqrt(firstOperand))*100)/100;
+        return Math.round((Math.sqrt(firstOperand))*100)/100; /* Karakök işleminin yapılmasını sağlar ve onu yuvarlar*/
     }
     function square (firstOperand) {
-        return Math.round((firstOperand*firstOperand)*100)/100;
+        return Math.round((firstOperand*firstOperand)*100)/100; /* KareAlma işleminin yapılmasını sağlar ve onu yuvarlar*/
     }
 
     
@@ -229,14 +235,13 @@
                 return square(firstOperand);  
         }
     }
-    
-    function inputDigit(digit){
+
+    function inputDigit(digit){ /* Basılan tuşlara göre sayı değerlerini tutar */
         calculator.operationDisplayValue === 0 ? calculator.operationDisplayValue = digit : calculator.operationDisplayValue += digit;
         if (!calculator.waitingForSecondOperand) {
             calculator.firstOperand += digit;
         }
         else {
-            
             calculator.secondOperand += digit;
         }
     }
